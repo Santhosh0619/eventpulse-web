@@ -1,17 +1,35 @@
+import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/Button'
 import { authService } from '@/services/authService'
+import { notificationService } from '@/services/notificationService'
 import { useAuthStore } from '@/store/authStore'
+import { useNotificationStore } from '@/store/notificationStore'
 
-/** Top navigation bar with brand, primary links, and session controls. */
+/** Top navigation bar with brand, primary links, notifications, and session controls. */
 export function Navbar() {
   const navigate = useNavigate()
   const user = useAuthStore((s) => s.user)
   const isAuthed = useAuthStore((s) => s.isAuthenticated())
+  const unreadCount = useNotificationStore((s) => s.unreadCount)
+  const setUnreadCount = useNotificationStore((s) => s.setUnreadCount)
+
+  useEffect(() => {
+    if (!isAuthed) return
+    let ignore = false
+    notificationService
+      .unreadCount()
+      .then((n) => !ignore && setUnreadCount(n))
+      .catch(() => undefined)
+    return () => {
+      ignore = true
+    }
+  }, [isAuthed, setUnreadCount])
 
   async function handleLogout() {
     await authService.logout()
+    setUnreadCount(0)
     navigate('/login')
   }
 
@@ -43,6 +61,18 @@ export function Navbar() {
               </Link>
               <Link to="/orders" className="text-sm text-gray-700 hover:text-brand-600">
                 My orders
+              </Link>
+              <Link
+                to="/notifications"
+                aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
+                className="relative text-lg text-gray-700 hover:text-brand-600"
+              >
+                <span aria-hidden="true">🔔</span>
+                {unreadCount > 0 && (
+                  <span className="absolute -right-2 -top-1 inline-flex min-w-[1.1rem] items-center justify-center rounded-full bg-brand-500 px-1 text-[0.65rem] font-semibold text-white">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </Link>
               <span className="text-sm text-gray-500">{user?.email}</span>
               <Button variant="ghost" size="sm" onClick={handleLogout}>

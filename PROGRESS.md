@@ -10,11 +10,11 @@
 - **Organizations — COMPLETE** (PR #4).
 - **Checkout & orders — COMPLETE** (PR #5).
 - **Payment (Stripe) — COMPLETE** (PR #6).
-- **Reviews — COMPLETE** (this PR): reviewService (list/summary/submit/update/remove/respond),
-  StarRating, ReviewForm, EventReviews (summary + list + write/edit/delete + organizer
-  respond), wired into EventDetail (canRespond = org membership).
-- Next: notifications (bell + center + unread count), analytics dashboard (Recharts),
-  admin panel. Then mobile repo.
+- **Reviews — COMPLETE** (PR #7).
+- **Notifications — COMPLETE** (this PR): notificationService (list/unread-count/mark-read/
+  mark-all-read), Navbar bell + unread badge (count via notificationStore), NotificationCenter
+  page (list, mark read, mark all read).
+- Next: analytics dashboard (Recharts), admin panel. Then mobile repo.
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.

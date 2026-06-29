@@ -17,6 +17,7 @@ import { EventList } from '@/pages/events/EventList'
 import { Forbidden } from '@/pages/Forbidden'
 import { MyOrders } from '@/pages/orders/MyOrders'
 import { OrderDetail } from '@/pages/orders/OrderDetail'
+import { NotificationCenter } from '@/pages/notifications/NotificationCenter'
 import { InvitationAccept } from '@/pages/organizations/InvitationAccept'
 import { OrgDetail } from '@/pages/organizations/OrgDetail'
 import { OrgList } from '@/pages/organizations/OrgList'
@@ -88,6 +89,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/notifications',
+        element: (
+          <ProtectedRoute>
+            <NotificationCenter />
           </ProtectedRoute>
         ),
       },
