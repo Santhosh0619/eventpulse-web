@@ -8,12 +8,12 @@
 - **Event management — COMPLETE** (PR #3): eventService write, EventCreate wizard, EventEdit,
   organizer actions gated by org membership.
 - **Organizations — COMPLETE** (PR #4).
-- **Checkout & orders — COMPLETE** (this PR): ticketService (availability), orderService
-  (create/get/listMine/cancel), Checkout (tier qty selection → place pending order),
-  MyOrders, OrderDetail (status, items, cancel), OrderStatusBadge, "Get tickets" on
-  EventDetail, "My orders" nav. NOTE: Stripe payment step deferred to the next PR.
-- Next: payment (Stripe Elements on OrderDetail/Checkout → confirm), then reviews,
-  notifications, analytics dashboard (Recharts), admin panel. Then mobile repo.
+- **Checkout & orders — COMPLETE** (PR #5).
+- **Payment (Stripe) — COMPLETE** (this PR): paymentService.createIntent, lib/stripe
+  (getStripe), PaymentForm (Elements + confirmPayment), PaymentSection wired into
+  OrderDetail for pending orders; VITE_STRIPE_PUBLISHABLE_KEY env; order confirms async
+  via webhook (UI shows "confirming").
+- Next: reviews, notifications, analytics dashboard (Recharts), admin panel. Then mobile repo.
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.

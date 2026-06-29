@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { OrderStatusBadge } from '@/components/orders/OrderStatusBadge'
+import { PaymentSection } from '@/components/checkout/PaymentSection'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -18,6 +19,7 @@ export function OrderDetail() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
   const [cancelling, setCancelling] = useState(false)
+  const [justPaid, setJustPaid] = useState(false)
 
   useEffect(() => {
     let ignore = false
@@ -33,6 +35,28 @@ export function OrderDetail() {
       ignore = true
     }
   }, [orderId])
+
+  /**
+   * Called after payment succeeds. The backend confirms the order asynchronously
+   * via the Stripe webhook, so poll briefly until the status leaves "pending".
+   */
+  function handlePaid() {
+    setJustPaid(true)
+    let attempts = 0
+    const poll = async () => {
+      attempts += 1
+      let current: Order | null = null
+      try {
+        current = await orderService.getById(orderId)
+        setOrder(current)
+      } catch {
+        // ignore a transient refresh failure and keep polling
+      }
+      if (current && current.status !== 'pending') return // confirmed/terminal
+      if (attempts < 10) setTimeout(poll, 2000) // ~20s of polling
+    }
+    void poll()
+  }
 
   async function handleCancel() {
     setActionError(null)
@@ -96,15 +120,19 @@ export function OrderDetail() {
 
         {order.status === 'pending' && (
           <div className="space-y-2 border-t border-surface-border pt-4">
-            {order.expires_at && (
+            {order.expires_at && !justPaid && (
               <p className="text-sm text-amber-700">
-                Held until {formatDateTime(order.expires_at)}. Online payment is coming
-                soon; until then you can cancel this order.
+                Held until {formatDateTime(order.expires_at)} — complete payment to
+                confirm.
               </p>
             )}
-            <Button variant="danger" loading={cancelling} onClick={handleCancel}>
-              Cancel order
-            </Button>
+            <PaymentSection orderId={order.id} onPaid={handlePaid} />
+            {/* Hide cancel once paid to avoid racing the confirmation webhook. */}
+            {!justPaid && (
+              <Button variant="danger" loading={cancelling} onClick={handleCancel}>
+                Cancel order
+              </Button>
+            )}
           </div>
         )}
         {actionError && <p className="text-sm text-red-600">{actionError}</p>}
