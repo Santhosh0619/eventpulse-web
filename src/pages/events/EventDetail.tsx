@@ -109,6 +109,11 @@ export function EventDetail() {
                 Edit
               </Button>
             </Link>
+            <Link to={`/events/${event.id}/analytics`}>
+              <Button variant="secondary" size="sm">
+                Analytics
+              </Button>
+            </Link>
             {event.status === 'draft' && (
               <Button
                 size="sm"

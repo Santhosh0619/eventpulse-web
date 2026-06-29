@@ -1,8 +1,13 @@
+// This is the route config (exports `router`), not a fast-refresh component module.
+/* eslint-disable react-refresh/only-export-components */
+/* oxlint-disable react/only-export-components */
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { AuthLayout } from '@/components/layout/AuthLayout'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { ProtectedRoute } from '@/components/layout/ProtectedRoute'
+import { Spinner } from '@/components/ui/Spinner'
 import { ForgotPassword } from '@/pages/auth/ForgotPassword'
 import { Login } from '@/pages/auth/Login'
 import { Register } from '@/pages/auth/Register'
@@ -18,6 +23,22 @@ import { Forbidden } from '@/pages/Forbidden'
 import { MyOrders } from '@/pages/orders/MyOrders'
 import { OrderDetail } from '@/pages/orders/OrderDetail'
 import { NotificationCenter } from '@/pages/notifications/NotificationCenter'
+
+// Lazy-loaded so the heavy Recharts bundle stays out of the initial chunk.
+const EventAnalytics = lazy(() =>
+  import('@/pages/analytics/EventAnalytics').then((m) => ({
+    default: m.EventAnalytics,
+  })),
+)
+
+/** Suspense fallback for lazily-loaded routes. */
+function RouteFallback() {
+  return (
+    <div className="flex justify-center py-16">
+      <Spinner size="lg" />
+    </div>
+  )
+}
 import { InvitationAccept } from '@/pages/organizations/InvitationAccept'
 import { OrgDetail } from '@/pages/organizations/OrgDetail'
 import { OrgList } from '@/pages/organizations/OrgList'
@@ -81,6 +102,16 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <EventEdit />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/events/:eventId/analytics',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<RouteFallback />}>
+              <EventAnalytics />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
