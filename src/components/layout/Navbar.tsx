@@ -35,6 +35,12 @@ export function Navbar() {
               >
                 Dashboard
               </Link>
+              <Link
+                to="/organizations"
+                className="text-sm text-gray-700 hover:text-brand-600"
+              >
+                Organizations
+              </Link>
               <span className="text-sm text-gray-500">{user?.email}</span>
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 Log out
