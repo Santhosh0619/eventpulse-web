@@ -133,6 +133,14 @@ export function EventDetail() {
           </div>
         )}
 
+        {event.status === 'published' && (
+          <div className="mb-4">
+            <Link to={`/events/${event.id}/checkout`}>
+              <Button>Get tickets</Button>
+            </Link>
+          </div>
+        )}
+
         {event.description && (
           <p className="mb-4 whitespace-pre-line text-gray-700">{event.description}</p>
         )}

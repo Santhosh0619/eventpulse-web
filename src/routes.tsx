@@ -8,12 +8,15 @@ import { Login } from '@/pages/auth/Login'
 import { Register } from '@/pages/auth/Register'
 import { ResetPassword } from '@/pages/auth/ResetPassword'
 import { VerifyEmail } from '@/pages/auth/VerifyEmail'
+import { Checkout } from '@/pages/checkout/Checkout'
 import { Dashboard } from '@/pages/dashboard/Dashboard'
 import { EventCreate } from '@/pages/events/EventCreate'
 import { EventDetail } from '@/pages/events/EventDetail'
 import { EventEdit } from '@/pages/events/EventEdit'
 import { EventList } from '@/pages/events/EventList'
 import { Forbidden } from '@/pages/Forbidden'
+import { MyOrders } from '@/pages/orders/MyOrders'
+import { OrderDetail } from '@/pages/orders/OrderDetail'
 import { InvitationAccept } from '@/pages/organizations/InvitationAccept'
 import { OrgDetail } from '@/pages/organizations/OrgDetail'
 import { OrgList } from '@/pages/organizations/OrgList'
@@ -48,6 +51,30 @@ export const router = createBrowserRouter([
         ),
       },
       { path: '/events/:eventId', element: <EventDetail /> },
+      {
+        path: '/events/:eventId/checkout',
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/orders',
+        element: (
+          <ProtectedRoute>
+            <MyOrders />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/orders/:orderId',
+        element: (
+          <ProtectedRoute>
+            <OrderDetail />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: '/events/:eventId/edit',
         element: (
