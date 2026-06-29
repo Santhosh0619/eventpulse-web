@@ -14,6 +14,9 @@ import { EventDetail } from '@/pages/events/EventDetail'
 import { EventEdit } from '@/pages/events/EventEdit'
 import { EventList } from '@/pages/events/EventList'
 import { Forbidden } from '@/pages/Forbidden'
+import { InvitationAccept } from '@/pages/organizations/InvitationAccept'
+import { OrgDetail } from '@/pages/organizations/OrgDetail'
+import { OrgList } from '@/pages/organizations/OrgList'
 import { NotFound } from '@/pages/NotFound'
 
 /**
@@ -58,6 +61,30 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/organizations',
+        element: (
+          <ProtectedRoute>
+            <OrgList />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/organizations/:orgId',
+        element: (
+          <ProtectedRoute>
+            <OrgDetail />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/invitations/:token/accept',
+        element: (
+          <ProtectedRoute>
+            <InvitationAccept />
           </ProtectedRoute>
         ),
       },

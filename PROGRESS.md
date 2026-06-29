@@ -5,10 +5,12 @@
   Login, Register, ForgotPassword, ResetPassword, VerifyEmail.
 - **Events (discovery) — COMPLETE** (PR #2): EventList, EventDetail, EventCard, eventService
   (read), useDebounce, format helpers.
-- **Event management — COMPLETE** (this PR): eventService write (create/update/publish/cancel/
-  remove), orgService.listMine, EventCreate 3-step wizard, EventEdit, organizer actions on
-  EventDetail gated by org membership, "Create event" on dashboard.
-- Next: tickets/checkout, orders, organizations, reviews, notifications, analytics dashboard
+- **Event management — COMPLETE** (PR #3): eventService write, EventCreate wizard, EventEdit,
+  organizer actions gated by org membership.
+- **Organizations — COMPLETE** (this PR): orgService (CRUD + members + invitations), OrgList
+  (list + create), OrgDetail (info + member mgmt + invite + role change + remove + delete),
+  InvitationAccept. Org nav link.
+- Next: tickets/checkout (Stripe), orders, reviews, notifications, analytics dashboard
   (Recharts), admin panel. Then mobile repo.
 
 ## Foundation (done)
