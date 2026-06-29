@@ -53,3 +53,18 @@ export interface EventSearchParams {
   category_id?: string
   is_featured?: boolean
 }
+
+export interface EventCreateInput {
+  organization_id: string
+  title: string
+  description?: string
+  short_description?: string
+  category_id?: string | null
+  venue_name?: string
+  city?: string
+  country?: string
+  start_datetime: string
+  end_datetime: string
+}
+
+export type EventUpdateInput = Partial<Omit<EventCreateInput, 'organization_id'>>

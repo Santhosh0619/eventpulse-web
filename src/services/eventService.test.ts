@@ -4,7 +4,7 @@ import { api } from '@/services/api'
 import { eventService } from '@/services/eventService'
 
 vi.mock('@/services/api', () => ({
-  api: { get: vi.fn() },
+  api: { get: vi.fn(), post: vi.fn(), put: vi.fn(), delete: vi.fn() },
 }))
 
 describe('eventService', () => {
@@ -30,5 +30,39 @@ describe('eventService', () => {
     vi.mocked(api.get).mockResolvedValue({ data: [] })
     await eventService.listCategories()
     expect(api.get).toHaveBeenCalledWith('/api/v1/categories')
+  })
+
+  it('create posts the new event', async () => {
+    vi.mocked(api.post).mockResolvedValue({ data: { id: 'e1' } })
+    await eventService.create({
+      organization_id: 'o1',
+      title: 'New',
+      start_datetime: '2030-06-01T10:00:00Z',
+      end_datetime: '2030-06-01T12:00:00Z',
+    })
+    expect(api.post).toHaveBeenCalledWith(
+      '/api/v1/events',
+      expect.objectContaining({ organization_id: 'o1', title: 'New' }),
+    )
+  })
+
+  it('update puts changed fields', async () => {
+    vi.mocked(api.put).mockResolvedValue({ data: { id: 'e1' } })
+    await eventService.update('e1', { title: 'Edited' })
+    expect(api.put).toHaveBeenCalledWith('/api/v1/events/e1', { title: 'Edited' })
+  })
+
+  it('publish and cancel post to their action endpoints', async () => {
+    vi.mocked(api.post).mockResolvedValue({ data: { id: 'e1' } })
+    await eventService.publish('e1')
+    expect(api.post).toHaveBeenCalledWith('/api/v1/events/e1/publish')
+    await eventService.cancel('e1')
+    expect(api.post).toHaveBeenCalledWith('/api/v1/events/e1/cancel')
+  })
+
+  it('remove deletes the event', async () => {
+    vi.mocked(api.delete).mockResolvedValue({ data: undefined })
+    await eventService.remove('e1')
+    expect(api.delete).toHaveBeenCalledWith('/api/v1/events/e1')
   })
 })
