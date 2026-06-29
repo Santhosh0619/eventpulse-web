@@ -62,6 +62,14 @@ export function Navbar() {
               <Link to="/orders" className="text-sm text-gray-700 hover:text-brand-600">
                 My orders
               </Link>
+              {user?.role === 'admin' && (
+                <Link
+                  to="/admin"
+                  className="text-sm text-gray-700 hover:text-brand-600"
+                >
+                  Admin
+                </Link>
+              )}
               <Link
                 to="/notifications"
                 aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}

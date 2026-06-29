@@ -12,11 +12,12 @@
 - **Payment (Stripe) — COMPLETE** (PR #6).
 - **Reviews — COMPLETE** (PR #7).
 - **Notifications — COMPLETE** (PR #8).
-- **Analytics dashboard — COMPLETE** (this PR): analyticsService (event sales/attendance,
-  org overview, platform), EventAnalytics page (metric cards + Recharts revenue line / tier
-  bar / check-in donut), lazy-loaded route (Recharts code-split ~396kB chunk), Analytics link
-  on EventDetail. ResizeObserver stub in test setup for Recharts.
-- Next: admin panel (role-gated). Then mobile repo.
+- **Analytics dashboard — COMPLETE** (PR #9).
+- **Admin panel — COMPLETE** (this PR): adminService (dashboard/users/orgs/events/audit-logs),
+  usePaginated hook + Pagination component, AdminLayout (tab nav), AdminDashboard, AdminUsers
+  (role/active), AdminOrganizations (verify), AdminEvents (feature), AdminAuditLogs; routes
+  gated by ProtectedRoute roles=['admin']; Admin nav link for admins.
+- **WEB APP FEATURE-COMPLETE.** Next: mobile repo (eventpulse-mobile, React Native Expo).
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.
