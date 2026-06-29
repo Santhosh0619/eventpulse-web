@@ -1,11 +1,13 @@
 # EventPulse Web — Progress Tracker
 
 ## Current Status
-- **Phase 1 (Foundation) — COMPLETE.** Project scaffolded and the foundation is in place.
-- Next: build feature pages phase-by-phase mirroring the backend, starting with
-  **auth pages** (Login done as foundation; add ForgotPassword/ResetPassword/VerifyEmail),
-  then events, tickets/checkout, orders, organizations, reviews, notifications,
-  analytics dashboard (Recharts), admin panel.
+- **Foundation — COMPLETE** (initial commit). **Auth pages — COMPLETE** (PR #1):
+  Login, Register, ForgotPassword, ResetPassword, VerifyEmail.
+- **Events (read/discovery) — COMPLETE** (this PR): EventList (search/filter/paginate),
+  EventDetail, EventCard, eventService (read), useDebounce, format helpers.
+- Next: **event management** (EventCreate wizard + EventEdit + eventService write methods +
+  organizer actions on EventDetail), then tickets/checkout, orders, organizations, reviews,
+  notifications, analytics dashboard (Recharts), admin panel. Then mobile repo.
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.

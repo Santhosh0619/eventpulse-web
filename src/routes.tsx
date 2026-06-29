@@ -9,6 +9,8 @@ import { Register } from '@/pages/auth/Register'
 import { ResetPassword } from '@/pages/auth/ResetPassword'
 import { VerifyEmail } from '@/pages/auth/VerifyEmail'
 import { Dashboard } from '@/pages/dashboard/Dashboard'
+import { EventDetail } from '@/pages/events/EventDetail'
+import { EventList } from '@/pages/events/EventList'
 import { Forbidden } from '@/pages/Forbidden'
 import { NotFound } from '@/pages/NotFound'
 
@@ -30,7 +32,9 @@ export const router = createBrowserRouter([
   {
     element: <DashboardLayout />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" replace /> },
+      { path: '/', element: <Navigate to="/events" replace /> },
+      { path: '/events', element: <EventList /> },
+      { path: '/events/:eventId', element: <EventDetail /> },
       {
         path: '/dashboard',
         element: (

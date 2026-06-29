@@ -18,9 +18,14 @@ export function Navbar() {
   return (
     <header className="border-b border-surface-border bg-white">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link to="/" className="text-lg font-bold text-brand-600">
-          EventPulse
-        </Link>
+        <div className="flex items-center gap-5">
+          <Link to="/" className="text-lg font-bold text-brand-600">
+            EventPulse
+          </Link>
+          <Link to="/events" className="text-sm text-gray-700 hover:text-brand-600">
+            Events
+          </Link>
+        </div>
         <div className="flex items-center gap-3">
           {isAuthed ? (
             <>
