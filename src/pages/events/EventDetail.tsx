@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
+import { EventReviews } from '@/components/reviews/EventReviews'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -176,6 +177,10 @@ export function EventDetail() {
           </div>
         )}
       </Card>
+
+      <div className="mt-6">
+        <EventReviews eventId={event.id} canRespond={canManage} />
+      </div>
     </PageWrapper>
   )
 }

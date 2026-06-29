@@ -9,11 +9,12 @@
   organizer actions gated by org membership.
 - **Organizations — COMPLETE** (PR #4).
 - **Checkout & orders — COMPLETE** (PR #5).
-- **Payment (Stripe) — COMPLETE** (this PR): paymentService.createIntent, lib/stripe
-  (getStripe), PaymentForm (Elements + confirmPayment), PaymentSection wired into
-  OrderDetail for pending orders; VITE_STRIPE_PUBLISHABLE_KEY env; order confirms async
-  via webhook (UI shows "confirming").
-- Next: reviews, notifications, analytics dashboard (Recharts), admin panel. Then mobile repo.
+- **Payment (Stripe) — COMPLETE** (PR #6).
+- **Reviews — COMPLETE** (this PR): reviewService (list/summary/submit/update/remove/respond),
+  StarRating, ReviewForm, EventReviews (summary + list + write/edit/delete + organizer
+  respond), wired into EventDetail (canRespond = org membership).
+- Next: notifications (bell + center + unread count), analytics dashboard (Recharts),
+  admin panel. Then mobile repo.
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.
