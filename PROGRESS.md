@@ -7,11 +7,13 @@
   (read), useDebounce, format helpers.
 - **Event management — COMPLETE** (PR #3): eventService write, EventCreate wizard, EventEdit,
   organizer actions gated by org membership.
-- **Organizations — COMPLETE** (this PR): orgService (CRUD + members + invitations), OrgList
-  (list + create), OrgDetail (info + member mgmt + invite + role change + remove + delete),
-  InvitationAccept. Org nav link.
-- Next: tickets/checkout (Stripe), orders, reviews, notifications, analytics dashboard
-  (Recharts), admin panel. Then mobile repo.
+- **Organizations — COMPLETE** (PR #4).
+- **Checkout & orders — COMPLETE** (this PR): ticketService (availability), orderService
+  (create/get/listMine/cancel), Checkout (tier qty selection → place pending order),
+  MyOrders, OrderDetail (status, items, cancel), OrderStatusBadge, "Get tickets" on
+  EventDetail, "My orders" nav. NOTE: Stripe payment step deferred to the next PR.
+- Next: payment (Stripe Elements on OrderDetail/Checkout → confirm), then reviews,
+  notifications, analytics dashboard (Recharts), admin panel. Then mobile repo.
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.
