@@ -9,7 +9,9 @@ import { Register } from '@/pages/auth/Register'
 import { ResetPassword } from '@/pages/auth/ResetPassword'
 import { VerifyEmail } from '@/pages/auth/VerifyEmail'
 import { Dashboard } from '@/pages/dashboard/Dashboard'
+import { EventCreate } from '@/pages/events/EventCreate'
 import { EventDetail } from '@/pages/events/EventDetail'
+import { EventEdit } from '@/pages/events/EventEdit'
 import { EventList } from '@/pages/events/EventList'
 import { Forbidden } from '@/pages/Forbidden'
 import { NotFound } from '@/pages/NotFound'
@@ -34,7 +36,23 @@ export const router = createBrowserRouter([
     children: [
       { path: '/', element: <Navigate to="/events" replace /> },
       { path: '/events', element: <EventList /> },
+      {
+        path: '/events/new',
+        element: (
+          <ProtectedRoute>
+            <EventCreate />
+          </ProtectedRoute>
+        ),
+      },
       { path: '/events/:eventId', element: <EventDetail /> },
+      {
+        path: '/events/:eventId/edit',
+        element: (
+          <ProtectedRoute>
+            <EventEdit />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: '/dashboard',
         element: (

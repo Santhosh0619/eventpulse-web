@@ -3,11 +3,13 @@
 ## Current Status
 - **Foundation — COMPLETE** (initial commit). **Auth pages — COMPLETE** (PR #1):
   Login, Register, ForgotPassword, ResetPassword, VerifyEmail.
-- **Events (read/discovery) — COMPLETE** (this PR): EventList (search/filter/paginate),
-  EventDetail, EventCard, eventService (read), useDebounce, format helpers.
-- Next: **event management** (EventCreate wizard + EventEdit + eventService write methods +
-  organizer actions on EventDetail), then tickets/checkout, orders, organizations, reviews,
-  notifications, analytics dashboard (Recharts), admin panel. Then mobile repo.
+- **Events (discovery) — COMPLETE** (PR #2): EventList, EventDetail, EventCard, eventService
+  (read), useDebounce, format helpers.
+- **Event management — COMPLETE** (this PR): eventService write (create/update/publish/cancel/
+  remove), orgService.listMine, EventCreate 3-step wizard, EventEdit, organizer actions on
+  EventDetail gated by org membership, "Create event" on dashboard.
+- Next: tickets/checkout, orders, organizations, reviews, notifications, analytics dashboard
+  (Recharts), admin panel. Then mobile repo.
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.
