@@ -11,10 +11,12 @@
 - **Checkout & orders — COMPLETE** (PR #5).
 - **Payment (Stripe) — COMPLETE** (PR #6).
 - **Reviews — COMPLETE** (PR #7).
-- **Notifications — COMPLETE** (this PR): notificationService (list/unread-count/mark-read/
-  mark-all-read), Navbar bell + unread badge (count via notificationStore), NotificationCenter
-  page (list, mark read, mark all read).
-- Next: analytics dashboard (Recharts), admin panel. Then mobile repo.
+- **Notifications — COMPLETE** (PR #8).
+- **Analytics dashboard — COMPLETE** (this PR): analyticsService (event sales/attendance,
+  org overview, platform), EventAnalytics page (metric cards + Recharts revenue line / tier
+  bar / check-in donut), lazy-loaded route (Recharts code-split ~396kB chunk), Analytics link
+  on EventDetail. ResizeObserver stub in test setup for Recharts.
+- Next: admin panel (role-gated). Then mobile repo.
 
 ## Foundation (done)
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.
