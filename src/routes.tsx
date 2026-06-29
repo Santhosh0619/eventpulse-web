@@ -4,10 +4,16 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
+import { AdminLayout } from '@/components/layout/AdminLayout'
 import { AuthLayout } from '@/components/layout/AuthLayout'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { ProtectedRoute } from '@/components/layout/ProtectedRoute'
 import { Spinner } from '@/components/ui/Spinner'
+import { AdminAuditLogs } from '@/pages/admin/AdminAuditLogs'
+import { AdminDashboard } from '@/pages/admin/AdminDashboard'
+import { AdminEvents } from '@/pages/admin/AdminEvents'
+import { AdminOrganizations } from '@/pages/admin/AdminOrganizations'
+import { AdminUsers } from '@/pages/admin/AdminUsers'
 import { ForgotPassword } from '@/pages/auth/ForgotPassword'
 import { Login } from '@/pages/auth/Login'
 import { Register } from '@/pages/auth/Register'
@@ -155,6 +161,20 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+    ],
+  },
+  {
+    element: (
+      <ProtectedRoute roles={['admin']}>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { path: '/admin', element: <AdminDashboard /> },
+      { path: '/admin/users', element: <AdminUsers /> },
+      { path: '/admin/organizations', element: <AdminOrganizations /> },
+      { path: '/admin/events', element: <AdminEvents /> },
+      { path: '/admin/audit-logs', element: <AdminAuditLogs /> },
     ],
   },
   { path: '/403', element: <Forbidden /> },
