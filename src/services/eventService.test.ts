@@ -65,4 +65,27 @@ describe('eventService', () => {
     await eventService.remove('e1')
     expect(api.delete).toHaveBeenCalledWith('/api/v1/events/e1')
   })
+
+  it('generateDescription posts keywords (and tone) and returns the result', async () => {
+    vi.mocked(api.post).mockResolvedValue({
+      data: { description: 'Great event', ai_generated: true },
+    })
+    const res = await eventService.generateDescription(['jazz', 'wine'], 'elegant')
+    expect(api.post).toHaveBeenCalledWith('/api/v1/events/generate-description', {
+      keywords: ['jazz', 'wine'],
+      tone: 'elegant',
+    })
+    expect(res.description).toBe('Great event')
+    expect(res.ai_generated).toBe(true)
+  })
+
+  it('generateDescription omits tone when not provided', async () => {
+    vi.mocked(api.post).mockResolvedValue({
+      data: { description: 'x', ai_generated: false },
+    })
+    await eventService.generateDescription(['solo'])
+    expect(api.post).toHaveBeenCalledWith('/api/v1/events/generate-description', {
+      keywords: ['solo'],
+    })
+  })
 })

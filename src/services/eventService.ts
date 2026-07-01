@@ -33,6 +33,18 @@ export const eventService = {
     return data
   },
 
+  /** AI-generate an event description from keywords (Gemini, with fallback). */
+  async generateDescription(
+    keywords: string[],
+    tone?: string,
+  ): Promise<{ description: string; ai_generated: boolean }> {
+    const { data } = await api.post<{ description: string; ai_generated: boolean }>(
+      '/api/v1/events/generate-description',
+      { keywords, ...(tone ? { tone } : {}) },
+    )
+    return data
+  },
+
   async create(input: EventCreateInput): Promise<Event> {
     const { data } = await api.post<Event>('/api/v1/events', input)
     return data

@@ -1,6 +1,7 @@
 # EventPulse Web — Progress Tracker
 
 ## Current Status
+
 - **Foundation — COMPLETE** (initial commit). **Auth pages — COMPLETE** (PR #1):
   Login, Register, ForgotPassword, ResetPassword, VerifyEmail.
 - **Events (discovery) — COMPLETE** (PR #2): EventList, EventDetail, EventCard, eventService
@@ -20,13 +21,19 @@
 - **WEB APP FEATURE-COMPLETE.** Next: mobile repo (eventpulse-mobile, React Native Expo).
 
 ## Deployment phase (21 ideas)
-- **Idea 14 — AI Recommendations (Gemini) — COMPLETE** (this PR): recommendationService
+
+- **Idea 15 — AI Event Descriptions (Gemini) — COMPLETE**: eventService.generateDescription,
+  AiDescriptionAssist component (keywords input + "✨ Generate with AI" button), added a full
+  "Description" field to the EventCreate wizard that the button auto-fills. Backend endpoint
+  POST /events/generate-description. 122 tests (was 117).
+- **Idea 14 — AI Recommendations (Gemini) — COMPLETE** (PR #13): recommendationService
   (getForMe, getSimilar), RecommendationSection component (loads AI recs, shows per-pick
   reason + ✨AI badge, hides on empty/error), "Recommended for You" on EventList (authed
   only), "Similar events" on EventDetail (public). Backend endpoints:
   GET /recommendations/for-me, GET /events/{id}/similar. 117 tests (was 111).
 
 ## Foundation (done)
+
 - Vite + React 18 + TypeScript; path alias `@/` → `src/`.
 - Tailwind CSS with brand design tokens (`tailwind.config.ts`); `index.css` directives.
 - React Router v7 (`createBrowserRouter`) with AuthLayout / DashboardLayout /
@@ -42,10 +49,12 @@
 - 6 tests passing (Button, authStore). Build green.
 
 ## Conventions
+
 - See CLAUDE.md. One feature per branch, PR per feature, quality gate must pass
   (typecheck + lint + format:check + test).
 
 ## Deviations from plan (flagged)
+
 - React Router **v7** instead of v6 (template default; v6's successor, compatible API).
 - **oxlint** instead of ESLint (Vite template default; faster Rust linter) + Prettier.
 - TypeScript pinned to ~5.8 (template shipped TS 6, incompatible with the tooling ecosystem).
