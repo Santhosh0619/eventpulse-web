@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { EventCard } from '@/components/events/EventCard'
+import { RecommendationSection } from '@/components/events/RecommendationSection'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
@@ -8,7 +9,9 @@ import { Spinner } from '@/components/ui/Spinner'
 import { Button } from '@/components/ui/Button'
 import { useDebounce } from '@/hooks/useDebounce'
 import { eventService } from '@/services/eventService'
+import { recommendationService } from '@/services/recommendationService'
 import type { ApiError } from '@/services/api'
+import { useAuthStore } from '@/store/authStore'
 import type { Paginated } from '@/types/common'
 import type { Category, EventSummary } from '@/types/event'
 
@@ -22,6 +25,8 @@ export function EventList() {
   const [data, setData] = useState<Paginated<EventSummary> | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const isAuthed = useAuthStore((s) => s.isAuthenticated())
 
   const debouncedQ = useDebounce(q)
   const debouncedCity = useDebounce(city)
@@ -70,6 +75,14 @@ export function EventList() {
 
   return (
     <PageWrapper title="Events">
+      {isAuthed && (
+        <RecommendationSection
+          title="Recommended for You"
+          cacheKey="for-me"
+          load={() => recommendationService.getForMe(8)}
+        />
+      )}
+
       <div className="mb-6 grid gap-3 sm:grid-cols-3">
         <Input
           placeholder="Search events…"
