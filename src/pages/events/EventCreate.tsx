@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
+import { AiDescriptionAssist } from '@/components/events/AiDescriptionAssist'
 import { FormField } from '@/components/forms/FormField'
 import { eventService } from '@/services/eventService'
 import { orgService } from '@/services/orgService'
@@ -18,6 +19,7 @@ interface Draft {
   organization_id: string
   title: string
   short_description: string
+  description: string
   category_id: string
   venue_name: string
   city: string
@@ -30,6 +32,7 @@ const EMPTY: Draft = {
   organization_id: '',
   title: '',
   short_description: '',
+  description: '',
   category_id: '',
   venue_name: '',
   city: '',
@@ -80,6 +83,7 @@ export function EventCreate() {
         organization_id: draft.organization_id,
         title: draft.title.trim(),
         short_description: draft.short_description || undefined,
+        description: draft.description || undefined,
         category_id: draft.category_id || null,
         venue_name: draft.venue_name || undefined,
         city: draft.city || undefined,
@@ -142,6 +146,15 @@ export function EventCreate() {
                 value={draft.short_description}
                 onChange={(e) => set('short_description', e.target.value)}
               />
+            </FormField>
+            <FormField label="Description" htmlFor="description">
+              <Textarea
+                id="description"
+                rows={5}
+                value={draft.description}
+                onChange={(e) => set('description', e.target.value)}
+              />
+              <AiDescriptionAssist onGenerated={(text) => set('description', text)} />
             </FormField>
             <FormField label="Category" htmlFor="category">
               <Select
