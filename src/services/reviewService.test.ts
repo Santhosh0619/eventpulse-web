@@ -40,4 +40,16 @@ describe('reviewService', () => {
       response: 'Thanks!',
     })
   })
+
+  it('listForManagement fetches all reviews incl. hidden', async () => {
+    vi.mocked(api.get).mockResolvedValue({ data: [] })
+    await reviewService.listForManagement('e1')
+    expect(api.get).toHaveBeenCalledWith('/api/v1/events/e1/reviews/management')
+  })
+
+  it('approve posts to the approve endpoint', async () => {
+    vi.mocked(api.post).mockResolvedValue({ data: {} })
+    await reviewService.approve('r1')
+    expect(api.post).toHaveBeenCalledWith('/api/v1/reviews/r1/approve')
+  })
 })

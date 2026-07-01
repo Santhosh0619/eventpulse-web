@@ -11,10 +11,12 @@ vi.mock('@/services/reviewService', () => ({
   reviewService: {
     getSummary: vi.fn(),
     listForEvent: vi.fn(),
+    listForManagement: vi.fn(),
     submit: vi.fn(),
     update: vi.fn(),
     remove: vi.fn(),
     respond: vi.fn(),
+    approve: vi.fn(),
   },
 }))
 
@@ -27,6 +29,7 @@ function review(over: Partial<Review> = {}): Review {
     title: 'Loved it',
     comment: 'Amazing event',
     is_visible: true,
+    moderation_status: 'approved',
     organizer_response: null,
     responded_at: null,
     created_at: '2030-06-02T10:00:00Z',
@@ -144,7 +147,7 @@ describe('EventReviews', () => {
 
   it('lets an org member respond to a review', async () => {
     setUser('mgr')
-    vi.mocked(reviewService.listForEvent).mockResolvedValue([review()])
+    vi.mocked(reviewService.listForManagement).mockResolvedValue([review()])
     vi.mocked(reviewService.respond).mockResolvedValue(
       review({ organizer_response: 'Thanks!' }),
     )
@@ -159,5 +162,29 @@ describe('EventReviews', () => {
     await waitFor(() =>
       expect(reviewService.respond).toHaveBeenCalledWith('r1', 'Thanks for coming'),
     )
+  })
+
+  it('shows a flagged badge and lets an org member approve it', async () => {
+    setUser('mgr')
+    vi.mocked(reviewService.listForManagement).mockResolvedValue([
+      review({ moderation_status: 'flagged', is_visible: false }),
+    ])
+    vi.mocked(reviewService.approve).mockResolvedValue(
+      review({ moderation_status: 'approved', is_visible: true }),
+    )
+    render(<EventReviews eventId="e1" canRespond={true} />)
+
+    await screen.findByText('Amazing event')
+    expect(screen.getByText(/flagged by ai/i)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Approve' }))
+    await waitFor(() => expect(reviewService.approve).toHaveBeenCalledWith('r1'))
+  })
+
+  it('uses the public list for non-organizers', async () => {
+    vi.mocked(reviewService.listForEvent).mockResolvedValue([review()])
+    render(<EventReviews eventId="e1" canRespond={false} />)
+    await screen.findByText('Amazing event')
+    expect(reviewService.listForEvent).toHaveBeenCalledWith('e1')
+    expect(reviewService.listForManagement).not.toHaveBeenCalled()
   })
 })

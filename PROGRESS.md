@@ -22,6 +22,10 @@
 
 ## Deployment phase (21 ideas)
 
+- **Idea 16 — AI Review Moderation (Gemini) — COMPLETE**: reviewService.listForManagement +
+  approve; Reviews-on-EventDetail now loads the management list for org members (incl. hidden/
+  flagged reviews), shows a "⚠ Flagged by AI" badge, and an Approve button. Backend endpoints
+  GET /events/{id}/reviews/management + POST /reviews/{id}/approve. 126 tests (was 122).
 - **Idea 15 — AI Event Descriptions (Gemini) — COMPLETE**: eventService.generateDescription,
   AiDescriptionAssist component (keywords input + "✨ Generate with AI" button), added a full
   "Description" field to the EventCreate wizard that the button auto-fills. Backend endpoint
