@@ -35,4 +35,18 @@ export const reviewService = {
     })
     return data
   },
+
+  /** List ALL reviews for an event incl. hidden/flagged (org members). */
+  async listForManagement(eventId: string): Promise<Review[]> {
+    const { data } = await api.get<Review[]>(
+      `/api/v1/events/${eventId}/reviews/management`,
+    )
+    return data
+  },
+
+  /** Approve a flagged review, making it public (org members). */
+  async approve(reviewId: string): Promise<Review> {
+    const { data } = await api.post<Review>(`/api/v1/reviews/${reviewId}/approve`)
+    return data
+  },
 }

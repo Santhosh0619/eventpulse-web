@@ -6,6 +6,8 @@ export interface Review {
   title: string | null
   comment: string | null
   is_visible: boolean
+  /** AI moderation outcome: "approved" | "flagged". */
+  moderation_status: string
   organizer_response: string | null
   responded_at: string | null
   created_at: string

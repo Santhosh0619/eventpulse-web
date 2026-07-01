@@ -29,15 +29,20 @@ export function EventReviews({ eventId, canRespond }: EventReviewsProps) {
   const [actionError, setActionError] = useState<string | null>(null)
   const [editing, setEditing] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [approvingId, setApprovingId] = useState<string | null>(null)
 
   const load = useCallback(async () => {
+    // Organizers load the management list (includes hidden/flagged reviews) so
+    // they can moderate; everyone else sees only the public, visible reviews.
     const [s, list] = await Promise.all([
       reviewService.getSummary(eventId),
-      reviewService.listForEvent(eventId),
+      canRespond
+        ? reviewService.listForManagement(eventId)
+        : reviewService.listForEvent(eventId),
     ])
     setSummary(s)
     setReviews(list)
-  }, [eventId])
+  }, [eventId, canRespond])
 
   // Reload after a mutation without rejecting (so a reload blip is never
   // mistaken for the mutation having failed).
@@ -71,6 +76,19 @@ export function EventReviews({ eventId, canRespond }: EventReviewsProps) {
     await reviewService.update(myReview.id, input)
     setEditing(false)
     await reload()
+  }
+
+  async function approve(reviewId: string) {
+    setActionError(null)
+    setApprovingId(reviewId)
+    try {
+      await reviewService.approve(reviewId)
+      await reload()
+    } catch (err) {
+      setActionError((err as ApiError).message)
+    } finally {
+      setApprovingId(null)
+    }
   }
 
   async function deleteMine() {
@@ -148,6 +166,20 @@ export function EventReviews({ eventId, canRespond }: EventReviewsProps) {
               {review.title && <p className="mt-1 font-medium">{review.title}</p>}
               {review.comment && (
                 <p className="text-sm text-gray-700">{review.comment}</p>
+              )}
+              {canRespond && review.moderation_status === 'flagged' && (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                    ⚠ Flagged by AI — hidden from public
+                  </span>
+                  <Button
+                    size="sm"
+                    loading={approvingId === review.id}
+                    onClick={() => approve(review.id)}
+                  >
+                    Approve
+                  </Button>
+                </div>
               )}
               {review.organizer_response && (
                 <p className="mt-2 rounded bg-surface-muted p-2 text-sm text-gray-700">
