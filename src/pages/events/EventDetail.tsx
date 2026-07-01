@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { EventReviews } from '@/components/reviews/EventReviews'
+import { RecommendationSection } from '@/components/events/RecommendationSection'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -10,6 +11,7 @@ import { Spinner } from '@/components/ui/Spinner'
 import { formatDateTime } from '@/lib/format'
 import { eventService } from '@/services/eventService'
 import { orgService } from '@/services/orgService'
+import { recommendationService } from '@/services/recommendationService'
 import type { ApiError } from '@/services/api'
 import { useAuthStore } from '@/store/authStore'
 import type { Event } from '@/types/event'
@@ -185,6 +187,14 @@ export function EventDetail() {
 
       <div className="mt-6">
         <EventReviews eventId={event.id} canRespond={canManage} />
+      </div>
+
+      <div className="mt-8">
+        <RecommendationSection
+          title="Similar events"
+          cacheKey={event.id}
+          load={() => recommendationService.getSimilar(event.id, 6)}
+        />
       </div>
     </PageWrapper>
   )

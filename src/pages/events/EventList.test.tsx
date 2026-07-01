@@ -4,10 +4,14 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { EventList } from '@/pages/events/EventList'
 import { eventService } from '@/services/eventService'
+import { recommendationService } from '@/services/recommendationService'
 import type { EventSummary } from '@/types/event'
 
 vi.mock('@/services/eventService', () => ({
   eventService: { search: vi.fn(), listCategories: vi.fn() },
+}))
+vi.mock('@/services/recommendationService', () => ({
+  recommendationService: { getForMe: vi.fn(), getSimilar: vi.fn() },
 }))
 
 function makeEvent(id: string, title: string): EventSummary {
@@ -31,6 +35,7 @@ function makeEvent(id: string, title: string): EventSummary {
 beforeEach(() => {
   vi.clearAllMocks()
   vi.mocked(eventService.listCategories).mockResolvedValue([])
+  vi.mocked(recommendationService.getForMe).mockResolvedValue([])
 })
 
 function renderList() {

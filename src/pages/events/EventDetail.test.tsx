@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { EventDetail } from '@/pages/events/EventDetail'
 import { eventService } from '@/services/eventService'
 import { orgService } from '@/services/orgService'
+import { recommendationService } from '@/services/recommendationService'
 import { useAuthStore } from '@/store/authStore'
 import type { Event } from '@/types/event'
 
@@ -14,6 +15,9 @@ vi.mock('@/services/eventService', () => ({
 }))
 vi.mock('@/services/orgService', () => ({
   orgService: { listMine: vi.fn() },
+}))
+vi.mock('@/services/recommendationService', () => ({
+  recommendationService: { getForMe: vi.fn(), getSimilar: vi.fn() },
 }))
 
 const EVENT: Event = {
@@ -56,6 +60,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   useAuthStore.getState().clear()
   vi.mocked(orgService.listMine).mockResolvedValue([])
+  vi.mocked(recommendationService.getSimilar).mockResolvedValue([])
 })
 
 describe('EventDetail', () => {
